@@ -484,3 +484,4 @@ $RECYCLE.BIN/
 *.swp
 backend/WebApplication1/appsettings.json
 backend/WebApplication1/appsettings.Development.json
+note.md
