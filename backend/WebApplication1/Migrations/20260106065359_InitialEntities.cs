@@ -56,12 +56,11 @@ namespace WebApplication1.Migrations
                 name: "MenuItems",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Id = table.Column<string>(type: "text", nullable: false),
                     Name = table.Column<string>(type: "text", nullable: false),
-                    Description = table.Column<string>(type: "text", nullable: false),
+                    Description = table.Column<string>(type: "text", nullable: true),
                     Category = table.Column<string>(type: "text", nullable: false),
-                    SpecialTag = table.Column<string>(type: "text", nullable: false),
+                    SpecialTag = table.Column<string>(type: "text", nullable: true),
                     Price = table.Column<double>(type: "double precision", nullable: false),
                     ImageUrl = table.Column<string>(type: "text", nullable: false)
                 },

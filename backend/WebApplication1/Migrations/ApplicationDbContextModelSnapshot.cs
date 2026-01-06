@@ -224,18 +224,14 @@ namespace WebApplication1.Migrations
 
             modelBuilder.Entity("WebApplication1.core.Models.MenuItem", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+                    b.Property<string>("Id")
+                        .HasColumnType("text");
 
                     b.Property<string>("Category")
                         .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("Description")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("ImageUrl")
@@ -250,7 +246,6 @@ namespace WebApplication1.Migrations
                         .HasColumnType("double precision");
 
                     b.Property<string>("SpecialTag")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.HasKey("Id");
