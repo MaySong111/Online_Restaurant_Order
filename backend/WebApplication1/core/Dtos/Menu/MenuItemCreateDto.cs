@@ -1,11 +1,9 @@
-
 using System.ComponentModel.DataAnnotations;
 
-namespace WebApplication1.core.Dtos
+namespace WebApplication1.core.Menu.Dtos
 {
-    public class MenuItemUpdateDto
+    public class MenuItemCreateDto
     {
-        public string Id { get; set; }
         [Required]
         public string Name { get; set; } = "";
         public string? Description { get; set; }

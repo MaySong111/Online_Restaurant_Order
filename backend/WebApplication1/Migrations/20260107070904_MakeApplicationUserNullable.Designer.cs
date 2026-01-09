@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using WebApplication1.core.DbData;
@@ -11,9 +12,11 @@ using WebApplication1.core.DbData;
 namespace WebApplication1.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260107070904_MakeApplicationUserNullable")]
+    partial class MakeApplicationUserNullable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -227,9 +230,6 @@ namespace WebApplication1.Migrations
                     b.Property<string>("Id")
                         .HasColumnType("text");
 
-                    b.Property<double>("AverageRating")
-                        .HasColumnType("double precision");
-
                     b.Property<string>("Category")
                         .IsRequired()
                         .HasColumnType("text");
@@ -250,9 +250,6 @@ namespace WebApplication1.Migrations
 
                     b.Property<string>("SpecialTag")
                         .HasColumnType("text");
-
-                    b.Property<int>("TotalReviews")
-                        .HasColumnType("integer");
 
                     b.HasKey("Id");
 
@@ -330,25 +327,6 @@ namespace WebApplication1.Migrations
                     b.HasIndex("OrderId");
 
                     b.ToTable("OrderItems");
-                });
-
-            modelBuilder.Entity("WebApplication1.core.Models.Review", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("text");
-
-                    b.Property<string>("OrderItemId")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<int>("Rating")
-                        .HasColumnType("integer");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("OrderItemId");
-
-                    b.ToTable("Reviews");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -432,25 +410,9 @@ namespace WebApplication1.Migrations
                     b.Navigation("Order");
                 });
 
-            modelBuilder.Entity("WebApplication1.core.Models.Review", b =>
-                {
-                    b.HasOne("WebApplication1.core.Models.OrderItem", "OrderItem")
-                        .WithMany("Reviews")
-                        .HasForeignKey("OrderItemId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("OrderItem");
-                });
-
             modelBuilder.Entity("WebApplication1.core.Models.Order", b =>
                 {
                     b.Navigation("OrderItems");
-                });
-
-            modelBuilder.Entity("WebApplication1.core.Models.OrderItem", b =>
-                {
-                    b.Navigation("Reviews");
                 });
 #pragma warning restore 612, 618
         }

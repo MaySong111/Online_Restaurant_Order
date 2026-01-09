@@ -12,5 +12,9 @@ namespace WebApplication1.core.DbData
 
         public DbSet<ApplicationUser> ApplicationUsers { get; set; }
         public DbSet<MenuItem> MenuItems { get; set; }
+        public DbSet<Order> Orders { get; set; }
+        public DbSet<OrderItem> OrderItems { get; set; }
+        public DbSet<Review> Reviews { get; set; }
+        
     }
 }
