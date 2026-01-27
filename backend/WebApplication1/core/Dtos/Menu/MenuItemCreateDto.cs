@@ -11,6 +11,9 @@ namespace WebApplication1.core.Menu.Dtos
         public string? SpecialTag { get; set; }
         [Range(1, 1000)]
         public double Price { get; set; }
-        public IFormFile? File { get; set; }
+        [Required]
+        public IFormFile File { get; set; }
     }
 }
+
+// File 创建时必填, 更新时可选

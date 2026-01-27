@@ -16,6 +16,7 @@ namespace WebApplication1.Controllers
         public async Task<ActionResult> CreateReview([FromRoute] string orderItemId,
         [FromBody] ReviewDto dto)
         {
+            // Console.WriteLine("CreateReview called with orderItemId: " + orderItemId + " and Rating: " + dto.Rating);
             // 1.check if review for this orderItemId already exists
             var orderItem = _context.OrderItems.FirstOrDefault(oi => oi.Id == orderItemId);
             if (orderItem == null)
@@ -26,6 +27,7 @@ namespace WebApplication1.Controllers
             var loggedInUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             var order = _context.Orders.FirstOrDefault(o => o.ApplicationUserId == loggedInUserId &&
             o.OrderItems.Any(oi => oi.Id == orderItemId));
+
             if (order == null)
             {
                 return Forbid("You are not allowed to review this item");
@@ -49,88 +51,31 @@ namespace WebApplication1.Controllers
                 OrderItemId = orderItemId
             };
             // 5. save the review!!!  
-             _context.Reviews.Add(newReview);
+            _context.Reviews.Add(newReview);
             await _context.SaveChangesAsync();
 
 
             // 6. calculate the new average rating and total reviews for the menu item
             var menuItemId = orderItem.MenuItemId;
             var menuItem = await _context.MenuItems.FindAsync(menuItemId);
+            var allReviews = await _context.OrderItems
+                        .Where(oi => oi.MenuItemId == menuItemId && oi.Review != null)
+                        .Select(oi => oi.Review.Rating)
+                        .ToListAsync();
 
-            var totalReviews = _context.Reviews.Count(r => r.OrderItem.MenuItemId == menuItemId);
-            var averageRating = _context.Reviews.Where(r => r.OrderItem.MenuItemId == menuItemId).Average(r => r.Rating);
             // update MenuItem's AverageRating and TotalReviews fields
-            if (menuItem != null)
+            if (menuItem != null && allReviews.Count > 0)
             {
-                menuItem.AverageRating = averageRating;
-                menuItem.TotalReviews = totalReviews;
+                menuItem.AverageRating = allReviews.Average();
+                menuItem.TotalReviews = allReviews.Count;
             }
+            await _context.SaveChangesAsync();
 
-           
             return Ok(new { Message = "Review created successfully" });
         }
 
 
-
-        [HttpPut("update/{orderItemId}")]
-        public async Task<ActionResult> UpdateReview([FromRoute] string orderItemId,
-        [FromBody] ReviewDto dto)
-        {
-            var loggedInUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-
-            var review = await _context.Reviews
-            .Include(r => r.OrderItem)
-            .ThenInclude(oi => oi.Order)
-            .FirstOrDefaultAsync(r => r.OrderItemId == orderItemId &&
-            r.OrderItem.Order.ApplicationUserId == loggedInUserId);
-
-            if (review == null)
-            {
-                return NotFound("Review not found or you are not authorized to update this review");
-            }
-            //  check if rating is between 1 and 5
-            if (dto.Rating < 1 || dto.Rating > 5)
-            {
-                return BadRequest("Rating must be between 1 and 5");
-            }
-
-            // calculate the new average rating and total reviews for the menu item
-            var orderItem = review.OrderItem;
-            var menuItemId = orderItem.MenuItemId;
-            var menuItem = await _context.MenuItems.FindAsync(menuItemId);
-
-            var totalReviews = _context.Reviews.Count(r => r.OrderItem.MenuItemId == menuItemId);
-            var averageRating = _context.Reviews.Where(r => r.OrderItem.MenuItemId == menuItemId).Average(r => r.Rating);
-            // update MenuItem's AverageRating and TotalReviews fields
-            if (menuItem != null)
-            {
-                menuItem.AverageRating = averageRating;
-                menuItem.TotalReviews = totalReviews;
-            }
-
-            review.Rating = dto.Rating;
-            await _context.SaveChangesAsync();
-            return Ok(new { Message = "Review updated successfully" });
-        }
-
-        // // this logged user can get only his own review for the specific orderitem-用户查自己的 Review 没意义
-        // [HttpGet("item/{orderItemId}")]
-        // public async Task<ActionResult> GetReviewByOrderItemId([FromRoute] string orderItemId)
-        // {
-        //     var loggedInUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-        //     var review = await _context.Reviews
-        //         .Include(r => r.OrderItem)
-        //         .ThenInclude(oi => oi.Order)
-        //         .FirstOrDefaultAsync(r => r.OrderItemId == orderItemId &&
-        //         r.OrderItem.Order.ApplicationUserId == loggedInUserId);
-
-        //     if (review == null)
-        //     {
-        //         return NotFound("Review not found");
-        //     }
-        //     return Ok(review);
-        // }
-
+        // this logged user can get only his own review for the specific orderitem-用户查自己的 Review 没意义
         // 不需要 [Authorize]，所有人都能看评价
         [HttpGet("menuitem/{menuItemId}")]
         public async Task<ActionResult> GetReviewsByMenuItemId([FromRoute] string menuItemId)

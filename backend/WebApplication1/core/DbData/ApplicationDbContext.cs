@@ -15,6 +15,7 @@ namespace WebApplication1.core.DbData
         public DbSet<Order> Orders { get; set; }
         public DbSet<OrderItem> OrderItems { get; set; }
         public DbSet<Review> Reviews { get; set; }
+        public DbSet<UserLike> UserLikes { get; set; }
         
     }
 }

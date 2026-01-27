@@ -13,9 +13,11 @@ namespace WebApplication1.core.Models
         [Range(1, 1000)]
         public double Price { get; set; }
         public string ImageUrl { get; set; } = "";
+        public int LikesCount { get; set; }
         // average rating mark
         public double AverageRating { get; set; }
         // total number of reviews
         public int TotalReviews { get; set; }
+        public List<UserLike> UserLikes { get; set; } = new List<UserLike>();
     }
 }

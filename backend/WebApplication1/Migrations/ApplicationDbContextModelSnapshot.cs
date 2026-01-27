@@ -162,9 +162,16 @@ namespace WebApplication1.Migrations
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("integer");
 
+                    b.Property<string>("Address")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasColumnType("text");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Email")
                         .HasMaxLength(256)
@@ -172,6 +179,10 @@ namespace WebApplication1.Migrations
 
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("boolean");
+
+                    b.Property<string>("ImageUrl")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("boolean");
@@ -205,6 +216,9 @@ namespace WebApplication1.Migrations
 
                     b.Property<bool>("TwoFactorEnabled")
                         .HasColumnType("boolean");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("UserName")
                         .HasMaxLength(256)
@@ -240,6 +254,9 @@ namespace WebApplication1.Migrations
                     b.Property<string>("ImageUrl")
                         .IsRequired()
                         .HasColumnType("text");
+
+                    b.Property<int>("LikesCount")
+                        .HasColumnType("integer");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -346,9 +363,32 @@ namespace WebApplication1.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("OrderItemId");
+                    b.HasIndex("OrderItemId")
+                        .IsUnique();
 
                     b.ToTable("Reviews");
+                });
+
+            modelBuilder.Entity("WebApplication1.core.Models.UserLike", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("text");
+
+                    b.Property<string>("MenuItemId")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("MenuItemId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("UserLikes");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -435,12 +475,36 @@ namespace WebApplication1.Migrations
             modelBuilder.Entity("WebApplication1.core.Models.Review", b =>
                 {
                     b.HasOne("WebApplication1.core.Models.OrderItem", "OrderItem")
-                        .WithMany("Reviews")
-                        .HasForeignKey("OrderItemId")
+                        .WithOne("Review")
+                        .HasForeignKey("WebApplication1.core.Models.Review", "OrderItemId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("OrderItem");
+                });
+
+            modelBuilder.Entity("WebApplication1.core.Models.UserLike", b =>
+                {
+                    b.HasOne("WebApplication1.core.Models.MenuItem", "MenuItem")
+                        .WithMany("UserLikes")
+                        .HasForeignKey("MenuItemId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("WebApplication1.core.Models.ApplicationUser", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("MenuItem");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("WebApplication1.core.Models.MenuItem", b =>
+                {
+                    b.Navigation("UserLikes");
                 });
 
             modelBuilder.Entity("WebApplication1.core.Models.Order", b =>
@@ -450,7 +514,7 @@ namespace WebApplication1.Migrations
 
             modelBuilder.Entity("WebApplication1.core.Models.OrderItem", b =>
                 {
-                    b.Navigation("Reviews");
+                    b.Navigation("Review");
                 });
 #pragma warning restore 612, 618
         }
