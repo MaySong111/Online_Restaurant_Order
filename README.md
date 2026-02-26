@@ -41,7 +41,7 @@ A full-stack web application that allows customers to browse menus, place orders
 ## Tech Stack
 
 ### Frontend
-|Technology | Purpose |
+|Technology|Purpose|
 |---|---|
 | React | UI framework |
 | Zustand | Global state (auth, shopping cart) |
@@ -51,7 +51,7 @@ A full-stack web application that allows customers to browse menus, place orders
 > TanStack Query was chosen to avoid redundant API calls by caching server responses. For example, menu items are fetched once and reused across components until explicitly invalidated after a mutation.
 
 ### Backend
-|Technology | Purpose |
+|Technology|Purpose|
 |---|---|
 | ASP.NET Core | REST API |
 | Entity Framework Core | ORM and database migrations |
@@ -60,7 +60,7 @@ A full-stack web application that allows customers to browse menus, place orders
 | JWT | Authentication and authorization |
 
 ### Infrastructure
-|Technology | Purpose |
+|Technology|Purpose|
 |---|---|
 | Azure SQL Server | Production database |
 | Azure App Service | Hosting |
