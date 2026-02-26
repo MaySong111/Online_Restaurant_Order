@@ -132,7 +132,7 @@ ApplicationUser  1──N  Order
 Order            1──N  OrderItem
 MenuItem         1──N  OrderItem
 OrderItem        1──01 Review
-ApplicationUser  N──N  MenuItem  (via UserLike join table)
+ApplicationUser  N──N  MenuItem  (via UserLike)
 ```
 
 ### Design Decisions
