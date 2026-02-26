@@ -74,25 +74,34 @@ A full-stack web application that allows customers to browse menus, place orders
 ## Architecture
 
 ### Backend Structure
+
 ```
-Controllers/
-  AuthController.cs
-  MenuItemController.cs
-  OrderController.cs
-  ReviewController.cs
-core/
-  AutomapperConfig/
-  DbData/
-  Dtos/
-  Models/
-  Services/
-    FileService.cs
-    GenerateJwtTokenService.cs
-  Utility/
-    StaticOrderStatus.cs
-    StaticRoles.cs
-Migrations/
-wwwroot/
+Presentation Layer
+│
+├── Controllers
+│   ├── AuthController.cs
+│   ├── MenuItemController.cs
+│   ├── OrderController.cs
+│   └── ReviewController.cs
+│
+Application / Core Layer
+│
+├── core
+│   ├── AutomapperConfig        → Object mapping configuration
+│   ├── DbData                  → DbContext & database setup
+│   ├── Dtos                    → Request / Response models
+│   ├── Models                  → Domain entities
+│   ├── Services
+│   │     ├── FileService.cs
+│   │     └── GenerateJwtTokenService.cs
+│   └── Utility
+│         ├── StaticOrderStatus.cs
+│         └── StaticRoles.cs
+│
+Infrastructure Layer
+│
+├── Migrations                  → Database schema history
+├── wwwroot                     → Static file storage (images)
 ```
 
 ### Frontend Three-Layer Pattern
