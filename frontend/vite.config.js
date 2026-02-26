@@ -9,5 +9,6 @@ export default defineConfig({
   },
   build: {
     outDir: "../backend/WebApplication1/wwwroot",
+    emptyOutDir: true,
   },
 });

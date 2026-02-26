@@ -15,8 +15,8 @@ using WebApplication1.core.Utility;
 namespace WebApplication1.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
-    public class AuthController(UserManager<ApplicationUser> _userManager, GenerateJwtTokenService _generateJwtTokenService, IMapper _mapper, FileService _fileService, IWebHostEnvironment _env, ApplicationDbContext _context) : ControllerBase
+    [Route("[controller]")]
+    public class AuthController(UserManager<ApplicationUser> _userManager, GenerateJwtTokenService _generateJwtTokenService, IMapper _mapper, FileService _fileService, ApplicationDbContext _context) : ControllerBase
     {
 
         private async Task<ApplicationUser?> GetCurrentUserAsync()
@@ -69,11 +69,15 @@ namespace WebApplication1.Controllers
             }
 
             // 5. Assign "Customer" role to the new user
-            if (dto.Name.ToUpper() == "ADMIN")
+            if (string.Equals(dto.Name, StaticRoles.Role_Admin, StringComparison.OrdinalIgnoreCase))
             {
                 await _userManager.AddToRoleAsync(newUser, StaticRoles.Role_Admin);
             }
-            await _userManager.AddToRoleAsync(newUser, StaticRoles.Role_Customer);
+            else
+            {
+                await _userManager.AddToRoleAsync(newUser, StaticRoles.Role_Customer);
+            }
+
             return Ok(new
             {
                 Message = "User registered successfully."

@@ -14,7 +14,7 @@ using WebApplication1.core.Utility;
 namespace WebApplication1.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     public class MenuItemController(ApplicationDbContext _context, IMapper _mapper, FileService _fileService, IWebHostEnvironment _env) : ControllerBase
     {
         [HttpGet]

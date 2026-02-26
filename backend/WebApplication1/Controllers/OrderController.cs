@@ -12,7 +12,7 @@ namespace WebApplication1.Controllers
 {
     [Authorize]
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     public class OrderController(ApplicationDbContext _context, IMapper _mapper) : ControllerBase
     {
         // create a method to get all orders for logged in user

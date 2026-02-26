@@ -45,7 +45,7 @@ export default function HomePage() {
       {/* Hero Section */}
       <Box
         sx={{
-          backgroundImage: "url(/src/assets/hero.jpg)",
+          backgroundImage: `url(/assets/hero.jpg)`,
           backgroundSize: "cover",
           backgroundPosition: "center",
           minHeight: "50vh",

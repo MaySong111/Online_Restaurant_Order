@@ -21,6 +21,7 @@ import Loader from "../../components/ui/Loader";
 import MenuItemCard from "../../components/ui/MenuItemCard";
 import MenuDetailsModal from "../../components/modals/MenuDetailsModal";
 
+
 export default function MenusPage() {
   const [category, setCategory] = useState("");
   const [sortBy, setSortBy] = useState("");
@@ -35,7 +36,7 @@ export default function MenusPage() {
     error,
   } = useFetchMenuItems(category, sortBy, searchQuery);
 
-  console.log("Fetched menuItems:", menuItems);
+  // console.log("Fetched menuItems:", menuItems);
 
   const handleCategoryChange = (event, newCategory) => {
     if (newCategory !== null) {
@@ -62,7 +63,7 @@ export default function MenusPage() {
     <>
       <Box
         sx={{
-          backgroundImage: "url(/src/assets/hero.jpg)",
+          backgroundImage: `url(/assets/hero.jpg)`,
           backgroundSize: "cover",
           backgroundPosition: "center",
           py: 8,
@@ -176,7 +177,7 @@ export default function MenusPage() {
 
         {!isLoading && !error && menuItems && (
           <Grid container spacing={3}>
-            {menuItems.map((item) => (
+            {menuItems?.map((item) => (
               <Grid size={{ xs: 12, sm: 6, md: 4 }} key={item.id}>
                 <MenuItemCard
                   menuItem={item}

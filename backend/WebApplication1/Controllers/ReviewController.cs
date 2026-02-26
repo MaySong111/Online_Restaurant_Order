@@ -8,7 +8,7 @@ using WebApplication1.core.Models;
 namespace WebApplication1.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     public class ReviewController(ApplicationDbContext _context) : ControllerBase
     {
 

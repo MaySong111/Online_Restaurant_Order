@@ -9,7 +9,7 @@ import {
   Typography,
   Link,
   CircularProgress,
-  Alert
+  Alert,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { ROUTES } from "../../constants/routes";
@@ -47,7 +47,7 @@ export default function RegisterPage() {
       !/\d/.test(formData.password)
     ) {
       setError(
-        "Password must contain uppercase, lowercase, and numeric characters."
+        "Password must contain uppercase, lowercase, and numeric characters.",
       );
       return;
     }
@@ -60,7 +60,7 @@ export default function RegisterPage() {
       navigate(ROUTES.LOGIN);
     } catch (err) {
       setError(
-        err.response?.data?.message || "Registration failed. Please try again."
+        err.response?.data?.message || "Registration failed. Please try again.",
       );
     } finally {
       setLoading(false);
@@ -73,7 +73,7 @@ export default function RegisterPage() {
         <Box
           width="50%"
           component="img"
-          src="/src/assets/hero.jpg"
+          src="/assets/1.jpg"
           alt="Register"
           sx={{ borderRadius: 2, objectFit: "cover", maxHeight: 600 }}
         />

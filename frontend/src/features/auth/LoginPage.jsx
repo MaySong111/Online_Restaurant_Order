@@ -42,7 +42,7 @@ export default function LoginPage() {
       navigate(ROUTES.MENUS);
     } catch (err) {
       setError(
-        err.response?.data?.message || "Login failed. Please try again."
+        err.response?.data?.message || "Login failed. Please try again.",
       );
     } finally {
       setLoading(false);
@@ -51,11 +51,15 @@ export default function LoginPage() {
 
   return (
     <Container maxWidth="md" sx={{ mt: 8 }}>
+      <Typography variant="body2" color="text.secondary">
+        🔑 Demo Account | Email: Admin1@admin.com / Password:Admin1@admin.com |
+        Or register a new account as Customer
+      </Typography>
       <Box display="flex" gap={4}>
         <Box
           width="50%"
           component="img"
-          src="/src/assets/hero.jpg"
+          src="/assets/1.jpg"
           alt="Login"
           sx={{ borderRadius: 2, objectFit: "cover", maxHeight: 500 }}
         />
