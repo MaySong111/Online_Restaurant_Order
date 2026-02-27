@@ -92,10 +92,10 @@ namespace WebApplication1.Controllers
 
             if (dto.File != null)
             {
-                // 删除旧文件
+                // delete old file
                 _fileService.DeleteFile(existingMenuItem.ImageUrl);
 
-                // 保存新文件
+                // save new file
                 existingMenuItem.ImageUrl = await _fileService.SaveFileAsync(dto.File);
             }
 
